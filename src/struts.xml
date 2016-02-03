@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+    <constant name="struts.multipart.maxSize" value="900000000"/>
+    <!--
+      <constant name="struts.enable.DynamicMethodInvocation" value="false" />
+      <constant name="struts.devMode" value="true" />
+    -->
+    <package name="default" namespace="/" extends="struts-default">
+    
+        <default-action-ref name="index" />
+ 
+        <global-results>
+            <result name="error">/pages/docresult.jsp</result>
+        </global-results>
+
+        <global-exception-mappings>
+            <exception-mapping exception="java.lang.Exception" result="error"/>
+        </global-exception-mappings>
+
+        <action name="login" class="login.LoginAction">
+            <result name="student">/pages/upload.jsp</result>
+            <result name="teacher">/pages/detect.jsp</result>
+            <result name="error">/pages/error.jsp</result>
+             
+            <!-- 验证失败返回登陆页面 -->
+           
+            <result name="input">/pages/login.jsp</result>
+            
+        </action>
+        
+        <action name="uploadMul" class="upload.UploadMulAction">
+            <interceptor-ref name="fileUpload">
+                <!-- 配置上传文件的大小 -->
+                <param name="maximumSize">800000000</param>
+            </interceptor-ref>
+            <interceptor-ref name="defaultStack"/>
+            <!-- 通过设置savePath参数依赖注入  
+            <param name="savePath">/upload1</param>
+            -->
+               <result name="success">/pages/upload_ok.jsp</result>    
+               <result name="error">/pages/error.jsp</result>  
+        </action>
+        
+         <action name="detect" class="detect.DetectAction">
+            <result name="success">/pages/showfile.jsp</result>
+            <!--  
+            <result name="error">/pages/error.jsp</result>
+            -->          
+         </action>
+        
+         <action name="result_action1" class="detect.DocResultAction" >
+            <result name="success">/pages/docresult.jsp</result>
+         </action>  
+         <action name="result_action2" class="detect.CodeResultAction" >
+            <result name="success">/pages/coderesult.jsp</result>
+         </action>  
+   
+    </package>
+
+
+</struts>
